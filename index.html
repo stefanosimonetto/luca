@@ -1,39 +1,78 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome</title>
+    <title>To the Power of Math!</title>
+    <!-- Styling for the client UI -->
     <style>
-        body {
-            background-color: black;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            flex-direction: column; /* Added */
+    h1 {
+        color: #FFFFFF;
+        font-family: system-ui;
+		margin-left: 20px;
         }
-        img {
-            max-width: 100%;
-            max-height: 100%;
+	body {
+        background-color: #222629;
         }
-        h1 {
-            color: white; /* Added */
-            text-align: center; /* Added */
+    label {
+        color: #86C232;
+        font-family: system-ui;
+        font-size: 20px;
+        margin-left: 20px;
+		margin-top: 20px;
         }
-        h2 {
-            color: white; /* Added */
-            text-align: center; /* Added */
+     button {
+        background-color: #86C232;
+		border-color: #86C232;
+		color: #FFFFFF;
+        font-family: system-ui;
+        font-size: 20px;
+		font-weight: bold;
+        margin-left: 30px;
+		margin-top: 20px;
+		width: 140px;
+        }
+	 input {
+        color: #222629;
+        font-family: system-ui;
+        font-size: 20px;
+        margin-left: 10px;
+		margin-top: 20px;
+		width: 100px;
         }
     </style>
+    <script>
+        // callAPI function that takes the base and exponent numbers as parameters
+        var callAPI = (user,gpt)=>{
+            // instantiate a headers object
+            var myHeaders = new Headers();
+            // add content type header to object
+            myHeaders.append("Content-Type", "application/json");
+            // using built in JSON utility package turn object to string and store in a variable
+            var raw = JSON.stringify({"user":user,"gpt":gpt});
+            // create a JSON object with parameters for API call and store in a variable
+            var requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: raw,
+                redirect: 'follow'
+            };
+            // make API call with parameters and use promises to get response
+            fetch("https://6xsp15hv9b.execute-api.us-east-1.amazonaws.com/dev", requestOptions)
+            .then(response => response.text())
+            .then(result => alert(JSON.parse(result).body))
+            .catch(error => console.log('error', error));
+        }
+    </script>
 </head>
 <body>
-    <h1>What is the value of your innovation?
-    </h1> <!-- Added -->
-    <h2>A value mapping game
-
-    </h2> <!-- Added -->
-    <img src="Picture1.png" alt="Image" />
+    <h1>TO THE POWER OF MATH!</h1>
+	<form>
+        <label>Base number:</label>
+        <input type="text" id="user">
+        <label>...to the power of:</label>
+        <input type="text" id="gpt">
+        <!-- set button onClick method to call function we defined passing input values as parameters -->
+        <button type="button" onclick="callAPI(document.getElementById('user').value,document.getElementById('gpt').value)">CALCULATE</button>
+    </form>
 </body>
 </html>
